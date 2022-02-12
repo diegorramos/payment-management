@@ -1,0 +1,80 @@
+version: '3.8'
+services:
+  
+  nginx:
+    build:
+      dockerfile: ./docker/nginx.dockerfile
+      context: .
+    image: diegorxramos/nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+    networks:
+      - payment-network
+    depends_on:
+      - payment1
+      - payment2
+      - payment3
+  
+  postgres:
+    image: postgres
+    networks:
+      - payment-network
+    environment:
+      - POSTGRES_PASSWORD=payment
+  
+  rabbitmq:
+    image: rabbitmq:3-management
+    networks:
+      - payment-network
+    ports:
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=rabbitmq
+
+  payment1:
+    build:
+      dockerfile: ./payment/Dockerfile
+      context: .
+    image: diegorxramos/payment
+    container_name: payment-1
+    ports:
+      - "8080"
+    networks:
+      - payment-network
+    depends_on:
+      - postgres
+      - rabbitmq
+  
+  payment2:
+    build:
+      dockerfile: ./payment/Dockerfile
+      context: .
+    image: diegorxramos/payment
+    container_name: payment-2
+    ports:
+      - "8080"
+    networks:
+      - payment-network
+    depends_on:
+      - postgres
+      - rabbitmq
+  
+  payment3:
+    build:
+      dockerfile: ./payment/Dockerfile
+      context: .
+    image: diegorxramos/payment
+    container_name: payment-3
+    ports:
+      - "8080"
+    networks:
+      - payment-network
+    depends_on:
+      - postgres
+      - rabbitmq
+
+networks:
+  payment-network:
+    driver: bridge
