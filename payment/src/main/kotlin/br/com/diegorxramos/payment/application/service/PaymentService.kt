@@ -5,13 +5,17 @@ import br.com.diegorxramos.payment.application.exception.ConflictException
 import br.com.diegorxramos.payment.domain.enum.PaymentStatus
 import br.com.diegorxramos.payment.domain.model.Payment
 import br.com.diegorxramos.payment.domain.repository.PaymentRepository
+import br.com.diegorxramos.payment.infrastructure.notification.PaymentSuccessNotification
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import java.time.LocalDate
 
 @Service
-class PaymentService(val repository: PaymentRepository) {
+class PaymentService(
+    private val repository: PaymentRepository,
+    private val notifications: List<PaymentSuccessNotification>
+) {
 
     fun create(dto: PaymentDto): Mono<Payment> {
         dto.valid()
@@ -23,6 +27,7 @@ class PaymentService(val repository: PaymentRepository) {
             .switchIfEmpty(
                 Mono.defer { repository.create(payment) }
             )
+            .doOnSuccess { notifications.forEach { notification -> notification.notify(it) } }
     }
 
     fun list(): Flux<Payment> {

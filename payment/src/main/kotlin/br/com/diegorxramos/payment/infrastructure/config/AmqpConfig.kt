@@ -5,13 +5,12 @@ import org.springframework.amqp.core.AmqpAdmin
 import org.springframework.amqp.core.TopicExchange
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory
 import org.springframework.amqp.rabbit.connection.ConnectionFactory
-import org.springframework.amqp.rabbit.core.RabbitMessagingTemplate
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class AmqpConfig(private val amqpTemplate: RabbitMessagingTemplate) {
+class AmqpConfig {
 
     companion object {
         const val EXCHANGE_DURABLE = true

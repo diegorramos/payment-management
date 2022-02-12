@@ -3,9 +3,7 @@ package br.com.diegorxramos.payment.domain.model
 import br.com.diegorxramos.payment.domain.enum.PaymentStatus
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.PersistenceConstructor
-import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
-import java.io.Serializable
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.util.*
