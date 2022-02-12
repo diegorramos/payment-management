@@ -9,7 +9,6 @@ import br.com.diegorxramos.payment.infrastructure.notification.PaymentSuccessNot
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
-import java.time.LocalDate
 
 @Service
 class PaymentService(
@@ -21,13 +20,12 @@ class PaymentService(
         dto.valid()
         val payment =
             Payment(dto.date!!, dto.amount!!, dto.description, dto.createdAt, null, dto.destination!!)
+
         return repository
             .findByAmountAndDateAndDestination(dto.date, dto.amount, dto.destination)
-            .flatMap { p -> Mono.error<Payment>(ConflictException("payment already exists, id=${p.id}")) }
-            .switchIfEmpty(
-                Mono.defer { repository.create(payment) }
-            )
-            .doOnSuccess { notifications.forEach { notification -> notification.notify(it) } }
+            .flatMap(this::conflict)
+            .switchIfEmpty(this.save(payment))
+            .doOnSuccess(this::notify)
     }
 
     fun list(): Flux<Payment> {
@@ -41,4 +39,11 @@ class PaymentService(
     fun listScheduled(scheduled: PaymentStatus): Flux<Payment> {
         return repository.listScheduled(scheduled)
     }
+
+    private fun notify(payment: Payment) = notifications.forEach { notification -> notification.notify(payment) }
+
+    private fun save(payment: Payment) = Mono.defer { repository.create(payment) }
+
+    private fun conflict(payment: Payment) =
+        Mono.error<Payment>(ConflictException("payment already exists, id=${payment.id}"))
 }
