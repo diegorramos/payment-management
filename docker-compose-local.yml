@@ -8,7 +8,7 @@ services:
     environment:
       - POSTGRES_DB=payment
       - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=payment
+      - POSTGRES_PASSWORD=payment  
   
   rabbitmq:
     image: rabbitmq:3-management

@@ -21,19 +21,19 @@ abstract class AbstractHandler {
             ServerResponse
                 .badRequest()
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(BodyInserters.fromValue("message:${throwable.message}"))
+                .body(BodyInserters.fromValue("{ ${"message="}${throwable.message} }"))
         }
         is ConflictException -> {
             ServerResponse
                 .status(HttpStatus.CONFLICT)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(BodyInserters.fromValue("message:${throwable.message}"))
+                .body(BodyInserters.fromValue("{ ${"message="}${throwable.message} }"))
         }
         else -> {
             ServerResponse
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(BodyInserters.fromValue("message:${throwable.message}"))
+                .body(BodyInserters.fromValue("{ ${"message="}${throwable.message} }"))
         }
     }
 }

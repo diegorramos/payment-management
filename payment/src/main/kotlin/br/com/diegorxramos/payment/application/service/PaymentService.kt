@@ -16,7 +16,7 @@ class PaymentService(val repository: PaymentRepository) {
     fun create(dto: PaymentDto): Mono<Payment> {
         dto.valid()
         val payment =
-            Payment(dto.date!!, dto.amount!!, dto.description, LocalDate.now(), dto.recurrence!!, dto.destination!!)
+            Payment(dto.date!!, dto.amount!!, dto.description, dto.createdAt, null, dto.destination!!)
         return repository
             .findByAmountAndDateAndDestination(dto.date, dto.amount, dto.destination)
             .flatMap { p -> Mono.error<Payment>(ConflictException("payment already exists, id=${p.id}")) }
