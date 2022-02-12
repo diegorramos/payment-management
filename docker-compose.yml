@@ -21,6 +21,8 @@ services:
     networks:
       - payment-network
     environment:
+      - POSTGRES_DB=payment
+      - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=payment
   
   rabbitmq:
