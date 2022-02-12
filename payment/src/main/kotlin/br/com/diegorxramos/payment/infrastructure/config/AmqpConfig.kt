@@ -32,7 +32,12 @@ class AmqpConfig(private val amqpTemplate: RabbitMessagingTemplate) {
 
     @Bean
     fun setupQueues(amqpAdmin: AmqpAdmin): InitializingBean {
-        return InitializingBean { declareTopic(amqpAdmin, Exchange.RECEIPT_EXCHANGE) }
+        return InitializingBean {
+            declareTopic(amqpAdmin, Exchange.RECEIPT_EXCHANGE)
+            declareTopic(amqpAdmin, Exchange.PAYMENT_CREATED_EXCHANGE)
+            declareTopic(amqpAdmin, Exchange.PAYMENT_UPDATED_EXCHANGE)
+            declareTopic(amqpAdmin, Exchange.PAYMENT_DELETED_EXCHANGE)
+        }
     }
 
     private fun declareTopic(amqpAdmin: AmqpAdmin, exchangeName: String){
