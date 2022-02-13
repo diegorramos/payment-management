@@ -24,6 +24,8 @@ services:
       - POSTGRES_DB=payment
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=payment
+    volumes:
+      - ./docker/config/init.sql:/docker-entrypoint-initdb.d/init.sql
   
   rabbitmq:
     image: rabbitmq:3-management
