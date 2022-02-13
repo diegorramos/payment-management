@@ -5,6 +5,7 @@ import br.com.diegorxramos.payment.application.exception.ConflictException
 import br.com.diegorxramos.payment.domain.enum.PaymentStatus
 import br.com.diegorxramos.payment.domain.model.Payment
 import br.com.diegorxramos.payment.domain.repository.PaymentRepository
+import br.com.diegorxramos.payment.domain.status.PaymentClassificationStatus
 import br.com.diegorxramos.payment.infrastructure.notification.PaymentSuccessNotification
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
@@ -17,7 +18,7 @@ class PaymentService(
 ) {
 
     fun create(dto: PaymentDto): Mono<Payment> {
-        val payment = dto.paymentOf()
+        val payment = this.paymentOf(dto)
         return repository
             .findByAmountAndDateAndDestination(dto.date!!, dto.amount!!, dto.destination!!)
             .flatMap(this::conflict)
@@ -43,4 +44,15 @@ class PaymentService(
 
     private fun conflict(payment: Payment) =
         Mono.error<Payment>(ConflictException("payment already exists, id=${payment.id}"))
+
+    private fun paymentOf(dto: PaymentDto): Payment {
+        return Payment(
+            date = dto.date!!,
+            amount = dto.amount!!,
+            createdAt = dto.createdAt,
+            description = dto.description,
+            destination = dto.destination!!,
+            recurrence = null
+        )
+    }
 }

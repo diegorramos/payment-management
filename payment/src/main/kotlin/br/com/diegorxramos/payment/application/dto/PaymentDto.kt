@@ -1,6 +1,5 @@
 package br.com.diegorxramos.payment.application.dto
 
-import br.com.diegorxramos.payment.domain.model.Payment
 import java.math.BigDecimal
 import java.time.LocalDate
 
@@ -19,17 +18,6 @@ data class PaymentDto(
         if (this.amount == null) throw IllegalArgumentException("payment amount is required")
         if (this.createdAt == null) throw IllegalArgumentException("payment createdAt is required")
         if (!isValidDestination(this.destination)) throw IllegalArgumentException("payment destination invalid")
-    }
-
-    fun paymentOf(): Payment {
-        return Payment(
-            date = this.date!!,
-            amount = this.amount!!,
-            createdAt = this.createdAt,
-            description = this.description,
-            destination = this.destination!!,
-            recurrence = null
-        )
     }
 
     private fun isValidDestination(destination: String?): Boolean {

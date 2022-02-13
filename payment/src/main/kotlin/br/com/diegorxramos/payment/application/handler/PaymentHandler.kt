@@ -50,8 +50,8 @@ class PaymentHandler(
             .flatMap { payments -> response(payments, HttpStatus.OK) }
     }
 
-    private fun create(dto: PaymentDto): Mono<Payment> {
-        dto.valid()
-        return service.create(dto)
+    private fun create(paymentDto: PaymentDto): Mono<Payment> {
+        paymentDto.valid()
+        return service.create(paymentDto)
     }
 }
