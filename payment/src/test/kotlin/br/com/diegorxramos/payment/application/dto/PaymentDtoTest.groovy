@@ -14,7 +14,7 @@ class PaymentDtoTest extends Specification {
             String description = "abc"
             String destination = "diegorxramos@gmail.com"
         when:
-            PaymentDto payment = new PaymentDto(date, amount, description, destination, createdAt)
+            PaymentDto payment = new PaymentDto(date, amount, description, destination, createdAt, null)
             payment.valid()
         then:
             thrown(IllegalArgumentException.class)
@@ -33,7 +33,7 @@ class PaymentDtoTest extends Specification {
             LocalDate createdAt = LocalDate.now()
             LocalDate paymentDate = LocalDate.now()
         when:
-            def paymentDto = new PaymentDto(paymentDate, amount, description, destination, createdAt)
+            def paymentDto = new PaymentDto(paymentDate, amount, description, destination, createdAt, null)
             paymentDto.valid()
         then:
             thrown(IllegalArgumentException)
@@ -47,7 +47,7 @@ class PaymentDtoTest extends Specification {
             LocalDate createdAt = LocalDate.now()
             LocalDate paymentDate = LocalDate.now()
         when:
-            def paymentDto = new PaymentDto(paymentDate, amount, description, destination, createdAt)
+            def paymentDto = new PaymentDto(paymentDate, amount, description, destination, createdAt, null)
             paymentDto.valid()
         then:
             thrown(IllegalArgumentException)
@@ -61,7 +61,7 @@ class PaymentDtoTest extends Specification {
             LocalDate createdAt = LocalDate.now()
             LocalDate paymentDate = LocalDate.now()
         when:
-            def paymentDto = new PaymentDto(paymentDate, amount, description, destination, createdAt)
+            def paymentDto = new PaymentDto(paymentDate, amount, description, destination, createdAt, null)
             paymentDto.valid()
         then:
             notThrown(IllegalArgumentException)
@@ -75,7 +75,7 @@ class PaymentDtoTest extends Specification {
             LocalDate createdAt = LocalDate.now()
             LocalDate paymentDate = LocalDate.now()
         when:
-            def paymentDto = new PaymentDto(paymentDate, amount, description, destination, createdAt)
+            def paymentDto = new PaymentDto(paymentDate, amount, description, destination, createdAt, null)
             paymentDto.valid()
         then:
             notThrown(IllegalArgumentException)
@@ -89,7 +89,7 @@ class PaymentDtoTest extends Specification {
             LocalDate createdAt = LocalDate.now()
             LocalDate paymentDate = LocalDate.now()
         when:
-            def paymentDto = new PaymentDto(paymentDate, amount, description, destination, createdAt)
+            def paymentDto = new PaymentDto(paymentDate, amount, description, destination, createdAt, null)
             paymentDto.valid()
         then:
             thrown(IllegalArgumentException)
@@ -103,7 +103,7 @@ class PaymentDtoTest extends Specification {
             LocalDate createdAt = LocalDate.now()
             LocalDate paymentDate = LocalDate.now()
         when:
-            def paymentDto = new PaymentDto(paymentDate, amount, description, destination, createdAt)
+            def paymentDto = new PaymentDto(paymentDate, amount, description, destination, createdAt,  null)
             paymentDto.valid()
         then:
             thrown(IllegalArgumentException)

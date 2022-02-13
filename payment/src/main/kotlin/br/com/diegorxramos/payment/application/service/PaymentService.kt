@@ -18,11 +18,9 @@ class PaymentService(
 
     fun create(dto: PaymentDto): Mono<Payment> {
         dto.valid()
-        val payment =
-            Payment(dto.date!!, dto.amount!!, dto.description, dto.createdAt, null, dto.destination!!)
-
+        val payment = dto.paymentOf()
         return repository
-            .findByAmountAndDateAndDestination(dto.date, dto.amount, dto.destination)
+            .findByAmountAndDateAndDestination(dto.date!!, dto.amount!!, dto.destination!!)
             .flatMap(this::conflict)
             .switchIfEmpty(this.save(payment))
             .doOnSuccess(this::notify)

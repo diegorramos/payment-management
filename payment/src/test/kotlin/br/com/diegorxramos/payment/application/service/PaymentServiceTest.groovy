@@ -29,7 +29,7 @@ class PaymentServiceTest extends Specification {
             LocalDate paymentDate = LocalDate.now()
             BigDecimal amount = new BigDecimal("2000.0")
             String description = "sdfjasldjflksadjgklsfhgksdfhgkfsdhg"
-            PaymentDto dto = new PaymentDto(paymentDate, amount, description, destination, createdAt)
+            PaymentDto dto = new PaymentDto(paymentDate, amount, description, destination, createdAt, null)
         when:
             1 * repository.findByAmountAndDateAndDestination(paymentDate, amount, destination) >> {
                 Mono.just(new Payment(paymentDate, amount, description, createdAt, null, destination))
@@ -47,7 +47,7 @@ class PaymentServiceTest extends Specification {
             LocalDate paymentDate = LocalDate.now()
             BigDecimal amount = new BigDecimal("2000.0")
             String description = "sdfjasldjflksadjgklsfhgksdfhgkfsdhg"
-            PaymentDto dto = new PaymentDto(paymentDate, amount, description, destination, createdAt)
+            PaymentDto dto = new PaymentDto(paymentDate, amount, description, destination, createdAt, null)
         when:
             1 * repository.findByAmountAndDateAndDestination(paymentDate, amount, destination) >> Mono.empty()
             1 * repository.create(*_) >> Mono.empty()
