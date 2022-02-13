@@ -7,6 +7,7 @@ import br.com.diegorxramos.payment.domain.enum.PaymentStatus
 import br.com.diegorxramos.payment.domain.model.Payment
 import br.com.diegorxramos.payment.domain.repository.PaymentRepository
 import br.com.diegorxramos.payment.infrastructure.notification.PaymentSuccessNotification
+import mu.KotlinLogging
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
@@ -17,6 +18,8 @@ class PaymentService(
     private val notifications: List<PaymentSuccessNotification>
 ) {
 
+    private val log = KotlinLogging.logger {}
+
     fun create(dto: PaymentDto): Mono<Payment> {
         val payment = this.getPayment(dto)
         return repository
@@ -24,6 +27,9 @@ class PaymentService(
             .flatMap(this::conflict)
             .switchIfEmpty(this.save(payment))
             .doOnSuccess(this::notify)
+            .doOnSuccess {
+                log.info("payment created with amount={} date={} destination={}", dto.amount, dto.date, dto.destination)
+            }
     }
 
     fun list(): Flux<Payment> {
@@ -42,8 +48,12 @@ class PaymentService(
 
     private fun save(payment: Payment) = Mono.defer { repository.create(payment) }
 
-    private fun conflict(payment: Payment) =
-        Mono.error<Payment>(ConflictException("payment already exists, id=${payment.id}"))
+    private fun conflict(payment: Payment): Mono<Payment> {
+        log.warn("payment already exists with amount={} date={} destination={}",
+            payment.amount, payment.date, payment.destination
+        )
+        return Mono.error(ConflictException("payment already exists, id=${payment.id}"))
+    }
 
     private fun getPayment(dto: PaymentDto): Payment {
         return PaymentBuilder.Builder()
