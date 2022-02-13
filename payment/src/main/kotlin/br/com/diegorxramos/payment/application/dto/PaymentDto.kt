@@ -9,7 +9,7 @@ data class PaymentDto(
     val description: String?,
     val destination: String?,
     val createdAt: LocalDate?,
-    val recurrenceDto: RecurrenceDto?,
+    var recurrence: RecurrenceDto? = null,
 ) {
 
     @Throws(IllegalArgumentException::class)

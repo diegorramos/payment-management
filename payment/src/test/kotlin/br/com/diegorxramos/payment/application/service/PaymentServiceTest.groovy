@@ -32,7 +32,7 @@ class PaymentServiceTest extends Specification {
             PaymentDto dto = new PaymentDto(paymentDate, amount, description, destination, createdAt, null)
         when:
             1 * repository.findByAmountAndDateAndDestination(paymentDate, amount, destination) >> {
-                Mono.just(new Payment(null, paymentDate, amount, description, createdAt, null, null, destination))
+                Mono.just(new Payment(null, paymentDate, amount, description, createdAt, null, null, null, destination))
             }
         then:
             StepVerifier.create(service.create(dto))

@@ -4,15 +4,15 @@ import br.com.diegorxramos.payment.domain.enum.RecurrenceFrequency
 import java.math.BigDecimal
 import java.time.LocalDate
 
-class RecurrenceWeekly(private val next: RecurrenceCalculator) : RecurrenceCalculator() {
+class RecurrenceMonthly(private val next: RecurrenceCalculator) : RecurrenceCalculator() {
 
-    override fun getLimitMonths() = 12L
-    override fun getBasePaymentAmount() = BigDecimal("50.0")
+    override fun getLimitMonths() = 24L
+    override fun getBasePaymentAmount() = BigDecimal("100.0")
 
     override fun calc(amount: BigDecimal, finalDate: LocalDate, frequency: String): LocalDate {
-        if (frequency == RecurrenceFrequency.SEMANAL.toString()) {
+        if (frequency == RecurrenceFrequency.MENSAL.toString()) {
             if (isValidRecurrence(amount, finalDate))
-                return LocalDate.now().plusWeeks(1)
+                return LocalDate.now().plusMonths(1)
         }
         return next.calc(amount, finalDate, frequency)
     }
