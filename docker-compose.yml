@@ -78,6 +78,23 @@ services:
     depends_on:
       - postgres
       - rabbitmq
+  
+  receipt:
+    build:
+      dockerfile: ./receipt/Dockerfile
+      context: .
+    image: diegorxramos/receipt
+    container_name: receipt-1
+    ports:
+      - "8081"
+    networks:
+      - payment-network
+    depends_on:
+      - postgres
+      - rabbitmq
+      - payment1
+      - payment2
+      - payment3
 
 networks:
   payment-network:

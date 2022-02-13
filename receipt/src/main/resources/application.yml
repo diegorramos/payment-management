@@ -1,0 +1,10 @@
+spring:
+  r2dbc:
+    url: r2dbc:postgresql://postgres:5432/payment
+    username: admin
+    password: payment
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: admin
+    password: rabbitmq
