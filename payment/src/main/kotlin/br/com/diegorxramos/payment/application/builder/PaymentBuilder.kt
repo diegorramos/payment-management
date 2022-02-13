@@ -2,7 +2,6 @@ package br.com.diegorxramos.payment.application.builder
 
 import br.com.diegorxramos.payment.application.dto.RecurrenceDto
 import br.com.diegorxramos.payment.domain.model.Payment
-import br.com.diegorxramos.payment.domain.recurrence.RecurrenceFrequencies
 import java.math.BigDecimal
 import java.time.LocalDate
 
@@ -24,23 +23,14 @@ class PaymentBuilder {
         fun destination(destination: String) = apply { this.destination = destination }
         fun recurrence(recurrenceDto: RecurrenceDto?) = apply { this.recurrenceDto = recurrenceDto }
         fun build(): Payment {
-            if (recurrenceDto != null) {
-                return Payment(
-                    date = date,
-                    amount = amount,
-                    createdAt = createdAt,
-                    description = description,
-                    destination = destination,
-                    finalDate = recurrenceDto!!.finalDate!!,
-                    frequency = recurrenceDto!!.frequency!!
-                )
-            }
             return Payment(
                 date = date,
                 amount = amount,
                 createdAt = createdAt,
                 description = description,
-                destination = destination
+                destination = destination,
+                finalDate = recurrenceDto?.finalDate,
+                frequency = recurrenceDto?.frequency
             )
         }
     }
