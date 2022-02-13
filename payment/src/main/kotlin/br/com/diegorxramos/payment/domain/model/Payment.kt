@@ -15,21 +15,21 @@ data class Payment @PersistenceConstructor constructor(
 
     @Id
     val id: String? = UUID.randomUUID().toString(),
-    val date: LocalDate?,
-    val amount: BigDecimal?,
+    val date: LocalDate,
+    val amount: BigDecimal,
     val description: String?,
-    val createdAt: LocalDate?,
+    val createdAt: LocalDate,
     val finalDate: LocalDate? = null,
     val frequency: String? = null,
-    val status: PaymentStatus? = PaymentClassificationStatus().classify(date!!),
-    val destination: String?
+    val status: PaymentStatus? = PaymentClassificationStatus().classify(date),
+    val destination: String
 ) {
 
     var nextDate: LocalDate? = buildNextDate()
 
     private fun buildNextDate(): LocalDate? {
         val isValid = finalDate != null && frequency != null
-        if (isValid) return RecurrenceFrequencies().calc(amount!!, finalDate!!, frequency!!)
+        if (isValid) return RecurrenceFrequencies().calc(amount, finalDate!!, frequency!!)
         return null
     }
 }

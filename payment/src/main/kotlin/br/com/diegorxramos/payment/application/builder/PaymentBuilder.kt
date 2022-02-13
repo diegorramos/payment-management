@@ -24,11 +24,11 @@ class PaymentBuilder {
         fun recurrence(recurrenceDto: RecurrenceDto?) = apply { this.recurrenceDto = recurrenceDto }
         fun build(): Payment {
             return Payment(
-                date = date,
-                amount = amount,
-                createdAt = createdAt,
+                date = date!!,
+                amount = amount!!,
+                createdAt = createdAt!!,
                 description = description,
-                destination = destination,
+                destination = destination!!,
                 finalDate = recurrenceDto?.finalDate,
                 frequency = recurrenceDto?.frequency
             )
