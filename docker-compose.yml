@@ -6,6 +6,7 @@ services:
       dockerfile: ./docker/nginx.dockerfile
       context: .
     image: diegorxramos/nginx
+    restart: always
     container_name: nginx
     ports:
       - "80:80"
@@ -18,6 +19,7 @@ services:
   
   postgres:
     image: postgres
+    restart: always
     networks:
       - payment-network
     environment:
@@ -29,6 +31,7 @@ services:
   
   rabbitmq:
     image: rabbitmq:3-management
+    restart: always
     networks:
       - payment-network
     ports:
@@ -37,11 +40,27 @@ services:
       - RABBITMQ_DEFAULT_USER=admin
       - RABBITMQ_DEFAULT_PASS=rabbitmq
 
+  receipt:
+    build:
+      dockerfile: ./receipt/Dockerfile
+      context: .
+    image: diegorxramos/receipt
+    restart: always
+    container_name: receipt-1
+    ports:
+      - "8080"
+    networks:
+      - payment-network
+    depends_on:
+      - postgres
+      - rabbitmq
+
   payment1:
     build:
       dockerfile: ./payment/Dockerfile
       context: .
     image: diegorxramos/payment
+    restart: always
     container_name: payment-1
     ports:
       - "8080"
@@ -56,6 +75,7 @@ services:
       dockerfile: ./payment/Dockerfile
       context: .
     image: diegorxramos/payment
+    restart: always
     container_name: payment-2
     ports:
       - "8080"
@@ -70,6 +90,7 @@ services:
       dockerfile: ./payment/Dockerfile
       context: .
     image: diegorxramos/payment
+    restart: always
     container_name: payment-3
     ports:
       - "8080"
@@ -78,23 +99,6 @@ services:
     depends_on:
       - postgres
       - rabbitmq
-  
-  receipt:
-    build:
-      dockerfile: ./receipt/Dockerfile
-      context: .
-    image: diegorxramos/receipt
-    container_name: receipt-1
-    ports:
-      - "8081"
-    networks:
-      - payment-network
-    depends_on:
-      - postgres
-      - rabbitmq
-      - payment1
-      - payment2
-      - payment3
 
 networks:
   payment-network:
