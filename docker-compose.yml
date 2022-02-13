@@ -16,6 +16,7 @@ services:
       - payment1
       - payment2
       - payment3
+      - receipt
   
   postgres:
     image: postgres
@@ -39,21 +40,6 @@ services:
     environment:
       - RABBITMQ_DEFAULT_USER=admin
       - RABBITMQ_DEFAULT_PASS=rabbitmq
-
-  receipt:
-    build:
-      dockerfile: ./receipt/Dockerfile
-      context: .
-    image: diegorxramos/receipt
-    restart: always
-    container_name: receipt-1
-    ports:
-      - "8080"
-    networks:
-      - payment-network
-    depends_on:
-      - postgres
-      - rabbitmq
 
   payment1:
     build:
@@ -99,6 +85,24 @@ services:
     depends_on:
       - postgres
       - rabbitmq
+
+  receipt:
+    build:
+      dockerfile: ./receipt/Dockerfile
+      context: .
+    image: diegorxramos/receipt
+    restart: always
+    container_name: receipt-1
+    ports:
+      - "8080"
+    networks:
+      - payment-network
+    depends_on:
+      - postgres
+      - rabbitmq
+      - payment1
+      - payment2
+      - payment3
 
 networks:
   payment-network:
