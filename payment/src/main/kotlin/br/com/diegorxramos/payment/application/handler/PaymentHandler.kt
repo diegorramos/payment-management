@@ -3,6 +3,7 @@ package br.com.diegorxramos.payment.application.handler
 import br.com.diegorxramos.payment.application.dto.PaymentDto
 import br.com.diegorxramos.payment.application.service.PaymentService
 import br.com.diegorxramos.payment.domain.enum.PaymentStatus
+import br.com.diegorxramos.payment.domain.model.Payment
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.server.ServerRequest
@@ -18,7 +19,7 @@ class PaymentHandler(
     fun create(request: ServerRequest): Mono<ServerResponse> {
         return request
             .bodyToMono(PaymentDto::class.java)
-            .flatMap(service::create)
+            .flatMap(::create)
             .flatMap { payment -> this.response(payment, HttpStatus.CREATED) }
             .onErrorResume(::handler)
     }
@@ -47,5 +48,10 @@ class PaymentHandler(
         return service.listScheduled(PaymentStatus.SCHEDULED)
             .collectList()
             .flatMap { payments -> response(payments, HttpStatus.OK) }
+    }
+
+    private fun create(dto: PaymentDto): Mono<Payment> {
+        dto.valid()
+        return service.create(dto)
     }
 }

@@ -17,7 +17,6 @@ class PaymentService(
 ) {
 
     fun create(dto: PaymentDto): Mono<Payment> {
-        dto.valid()
         val payment = dto.paymentOf()
         return repository
             .findByAmountAndDateAndDestination(dto.date!!, dto.amount!!, dto.destination!!)
