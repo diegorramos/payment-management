@@ -1,3 +1,4 @@
+-- Creation of payments table
 CREATE TABLE IF NOT EXISTS payments (
     id VARCHAR(255) PRIMARY KEY,
     date DATE,
@@ -9,4 +10,14 @@ CREATE TABLE IF NOT EXISTS payments (
     frequency VARCHAR(255),
     final_date DATE,
     next_date DATE
+);
+
+-- Creation of receipts table
+CREATE TABLE IF NOT EXISTS receipts (
+    id VARCHAR(255) PRIMARY KEY,
+    status VARCHAR(255),
+    paymentId VARCHAR(255),
+    amount NUMERIC,
+    destination VARCHAR(255),
+    paymentDate DATE
 );
