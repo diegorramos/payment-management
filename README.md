@@ -73,6 +73,25 @@ curl --request POST \
 }'
 ```
 
+#### Como atualizar um pagamento:
+
+```
+curl --request PUT \
+  --url http://localhost/payments/60051d90-0cb2-4272-b22b-fd88e673fc53 \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"createdAt": "2022-02-12",
+	"date": "2022-02-15",
+	"amount": 7000.0,
+	"description": "hot dog",
+	"recurrence": {
+		"finalDate": "2023-01-10",
+		"frequency" : "SEMANAL"
+	},
+	"destination": "222.222.222-40"
+}'
+```
+
 #### Como remover um pagamento:
 
 ```
