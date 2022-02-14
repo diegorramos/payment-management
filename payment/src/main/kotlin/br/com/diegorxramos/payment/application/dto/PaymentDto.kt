@@ -23,6 +23,7 @@ data class PaymentDto(
     private fun isValidDestination(destination: String?): Boolean {
         val isMail = destination?.matches("\\S+@\\S+\\.\\S+".toRegex()) ?: false
         val isCpf = destination?.matches("^\\d{3}\\.\\d{3}\\.\\d{3}\\-\\d{2}\$".toRegex()) ?: false
-        return isMail || isCpf
+        val isUUID = destination?.matches("^[0-9a-fA-F]{8}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{12}\$".toRegex()) ?: false
+        return isMail || isCpf || isUUID
     }
 }

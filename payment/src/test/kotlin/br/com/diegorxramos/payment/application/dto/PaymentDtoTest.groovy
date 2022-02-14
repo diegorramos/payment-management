@@ -108,4 +108,18 @@ class PaymentDtoTest extends Specification {
         then:
             thrown(IllegalArgumentException)
     }
+
+    def "should not return exception when destination key is uuid v4"() {
+        given:
+            String description = "abc"
+            String destination = UUID.randomUUID().toString()
+            BigDecimal amount = new BigDecimal("2000")
+            LocalDate createdAt = LocalDate.now()
+            LocalDate paymentDate = LocalDate.now()
+        when:
+            def paymentDto = new PaymentDto(paymentDate, amount, description, destination, createdAt, null)
+            paymentDto.valid()
+        then:
+            notThrown(IllegalArgumentException)
+    }
 }
