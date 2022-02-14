@@ -12,6 +12,7 @@
 * **Valor do pagamento**, 
 * **Data da inclusão do pagamento** 
 * **Status do pagamento**
+* **Destino** é chave para saber para que conta será feito o pagamento. O destino aceita chaves apenas nos formatos (cpf, email e uuid v4).
 
 ### Como criar um pagamento:
 
