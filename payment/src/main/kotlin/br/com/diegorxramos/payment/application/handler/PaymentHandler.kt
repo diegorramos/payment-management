@@ -26,12 +26,16 @@ class PaymentHandler(
     fun delete(request: ServerRequest): Mono<ServerResponse> {
         return service
             .delete(request.pathVariable("id"))
-            .flatMap { payment -> this.response(payment, HttpStatus.ACCEPTED) }
+            .flatMap { payment -> this.response(payment, HttpStatus.NO_CONTENT) }
             .onErrorResume(::handler)
     }
 
     fun update(request: ServerRequest): Mono<ServerResponse> {
-        return delete(request)
+        return request
+            .bodyToMono(PaymentDto::class.java)
+            .flatMap { payment -> service.update(request.pathVariable("id"), payment) }
+            .flatMap { payment -> this.response(payment, HttpStatus.OK) }
+            .onErrorResume(::handler)
     }
 
     fun list(request: ServerRequest): Mono<ServerResponse> {

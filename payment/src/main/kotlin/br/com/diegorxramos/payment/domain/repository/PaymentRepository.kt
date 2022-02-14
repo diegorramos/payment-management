@@ -8,11 +8,11 @@ import java.time.LocalDate
 
 interface PaymentRepository {
 
-    fun create(payment: Payment): Mono<Payment>
     fun list(): Flux<Payment>
+    fun delete(id: String): Mono<Int>
     fun listConfirmed(): Flux<Payment>
     fun listScheduled(): Flux<Payment>
+    fun create(payment: Payment): Mono<Payment>
+    fun update(id: String, payment: Payment): Mono<Payment>
     fun findByAmountAndDateAndDestination(date: LocalDate, amount: BigDecimal, destination: String): Mono<Payment>
-    fun delete(): Mono<Void>
-    fun delete(id: String): Mono<Int>
 }

@@ -16,13 +16,10 @@ class PaymentRouter {
     fun route(handler: PaymentHandler): RouterFunction<ServerResponse> {
         return RouterFunctions
             .route(GET("/payments").and(accept(MediaType.APPLICATION_JSON)), handler::list)
-
             .andRoute(POST("/payments").and(accept(MediaType.APPLICATION_JSON)), handler::create)
-
+            .andRoute(PUT("/payments/{id}").and(accept(MediaType.APPLICATION_JSON)), handler::update)
             .andRoute(DELETE("/payments/{id}").and(accept(MediaType.APPLICATION_JSON)), handler::delete)
-
             .andRoute(GET("/payments/confirmed").and(accept(MediaType.APPLICATION_JSON)), handler::listConfirmed)
-
             .andRoute(GET("/payments/scheduled").and(accept(MediaType.APPLICATION_JSON)), handler::listScheduled)
     }
 }

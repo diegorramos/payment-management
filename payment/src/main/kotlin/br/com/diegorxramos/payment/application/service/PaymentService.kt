@@ -30,9 +30,18 @@ class PaymentService(
             }
     }
 
-    fun list() = repository.list()
+    fun update(id: String, dto: PaymentDto): Mono<Payment> {
+        val payment = this.getPayment(dto)
+        return repository.update(id, payment)
+    }
 
-    fun delete(id: String) = repository.delete(id)
+    fun delete(id: String): Mono<Int> {
+        return repository
+            .delete(id)
+            .doOnSuccess { log.info("deleted payment, id={}", id) }
+    }
+
+    fun list() = repository.list()
 
     fun listConfirmed() = repository.listConfirmed()
 

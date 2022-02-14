@@ -15,8 +15,6 @@ import java.time.LocalDate
 @Repository
 class PaymentRepositoryImpl(private val reactiveTemplate: R2dbcEntityTemplate) : PaymentRepository {
 
-    val payments = mutableMapOf<String, Payment>()
-
     override fun create(payment: Payment) = reactiveTemplate.insert(payment)
 
     override fun list(): Flux<Payment> {
@@ -40,6 +38,8 @@ class PaymentRepositoryImpl(private val reactiveTemplate: R2dbcEntityTemplate) :
             .all()
     }
 
+    override fun update(id: String, payment: Payment) = reactiveTemplate.update(payment.copy(id = id))
+
     override fun findByAmountAndDateAndDestination(
         date: LocalDate, amount: BigDecimal, destination: String): Mono<Payment> {
 
@@ -50,10 +50,6 @@ class PaymentRepositoryImpl(private val reactiveTemplate: R2dbcEntityTemplate) :
                     .and("amount").`is`(amount)
                     .and("destination").`is`(destination)))
             .one()
-    }
-
-    override fun delete(): Mono<Void> {
-        return Mono.empty()
     }
 
     override fun delete(id: String): Mono<Int> {

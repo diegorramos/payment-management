@@ -72,6 +72,14 @@ curl --request POST \
 	"destination": "222.222.222-40"
 }'
 ```
+
+#### Como remover um pagamento:
+
+```
+curl --request DELETE \
+  --url http://localhost/payments/8e38a9e3-d048-49b5-924d-bd09286ff2a1
+```
+
 * Após a criação do pagamento é gerado um recibo para o cliente.
 
 #### Como funcionam as recorrências
