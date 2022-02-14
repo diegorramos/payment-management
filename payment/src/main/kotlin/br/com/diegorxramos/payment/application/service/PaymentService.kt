@@ -3,13 +3,11 @@ package br.com.diegorxramos.payment.application.service
 import br.com.diegorxramos.payment.application.builder.PaymentBuilder
 import br.com.diegorxramos.payment.application.dto.PaymentDto
 import br.com.diegorxramos.payment.application.exception.ConflictException
-import br.com.diegorxramos.payment.domain.enum.PaymentStatus
 import br.com.diegorxramos.payment.domain.model.Payment
 import br.com.diegorxramos.payment.domain.repository.PaymentRepository
 import br.com.diegorxramos.payment.infrastructure.notification.PaymentSuccessNotification
 import mu.KotlinLogging
 import org.springframework.stereotype.Service
-import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 @Service
@@ -32,17 +30,13 @@ class PaymentService(
             }
     }
 
-    fun list(): Flux<Payment> {
-        return repository.list()
-    }
+    fun list() = repository.list()
 
-    fun listConfirmed(confirmed: PaymentStatus): Flux<Payment> {
-        return repository.listConfirmed(confirmed)
-    }
+    fun delete(id: String) = repository.delete(id)
 
-    fun listScheduled(scheduled: PaymentStatus): Flux<Payment> {
-        return repository.listScheduled(scheduled)
-    }
+    fun listConfirmed() = repository.listConfirmed()
+
+    fun listScheduled() = repository.listScheduled()
 
     private fun notify(payment: Payment) = notifications.forEach { notification -> notification.notify(payment) }
 

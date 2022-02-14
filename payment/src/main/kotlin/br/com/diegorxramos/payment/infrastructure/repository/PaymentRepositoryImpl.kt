@@ -26,17 +26,17 @@ class PaymentRepositoryImpl(private val reactiveTemplate: R2dbcEntityTemplate) :
             .all()
     }
 
-    override fun listConfirmed(confirmed: PaymentStatus): Flux<Payment> {
+    override fun listConfirmed(): Flux<Payment> {
         return reactiveTemplate.select(Payment::class.java)
             .from("payments")
-            .matching(query(where("status").`is`(confirmed)))
+            .matching(query(where("status").`is`(PaymentStatus.CONFIRMED)))
             .all()
     }
 
-    override fun listScheduled(scheduled: PaymentStatus): Flux<Payment> {
+    override fun listScheduled(): Flux<Payment> {
         return reactiveTemplate.select(Payment::class.java)
             .from("payments")
-            .matching(query(where("status").`is`(scheduled)))
+            .matching(query(where("status").`is`(PaymentStatus.SCHEDULED)))
             .all()
     }
 
@@ -53,11 +53,13 @@ class PaymentRepositoryImpl(private val reactiveTemplate: R2dbcEntityTemplate) :
     }
 
     override fun delete(): Mono<Void> {
-        payments.clear()
         return Mono.empty()
     }
 
-    override fun delete(id: String): Mono<Void> {
-        TODO("Not yet implemented")
+    override fun delete(id: String): Mono<Int> {
+        return reactiveTemplate
+            .delete(Payment::class.java)
+            .matching(query(where("id").`is`(id)))
+            .all()
     }
 }

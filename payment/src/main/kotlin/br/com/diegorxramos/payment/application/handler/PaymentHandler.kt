@@ -2,7 +2,6 @@ package br.com.diegorxramos.payment.application.handler
 
 import br.com.diegorxramos.payment.application.dto.PaymentDto
 import br.com.diegorxramos.payment.application.service.PaymentService
-import br.com.diegorxramos.payment.domain.enum.PaymentStatus
 import br.com.diegorxramos.payment.domain.model.Payment
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
@@ -25,7 +24,10 @@ class PaymentHandler(
     }
 
     fun delete(request: ServerRequest): Mono<ServerResponse> {
-        return Mono.empty()
+        return service
+            .delete(request.pathVariable("id"))
+            .flatMap { payment -> this.response(payment, HttpStatus.ACCEPTED) }
+            .onErrorResume(::handler)
     }
 
     fun update(request: ServerRequest): Mono<ServerResponse> {
@@ -39,13 +41,13 @@ class PaymentHandler(
     }
 
     fun listConfirmed(request: ServerRequest): Mono<ServerResponse> {
-        return service.listConfirmed(PaymentStatus.CONFIRMED)
+        return service.listConfirmed()
             .collectList()
             .flatMap { payments -> response(payments, HttpStatus.OK) }
     }
 
     fun listScheduled(request: ServerRequest): Mono<ServerResponse> {
-        return service.listScheduled(PaymentStatus.SCHEDULED)
+        return service.listScheduled()
             .collectList()
             .flatMap { payments -> response(payments, HttpStatus.OK) }
     }
