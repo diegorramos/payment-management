@@ -1,5 +1,6 @@
 package br.com.diegorxramos.receipt.domain.model
 
+import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.PersistenceConstructor
 import org.springframework.data.relational.core.mapping.Table
 import java.math.BigDecimal
@@ -8,6 +9,8 @@ import java.util.*
 
 @Table("receipts")
 data class Receipt @PersistenceConstructor constructor(
+
+    @Id
     val id: String? = UUID.randomUUID().toString(),
     val status: String,
     val paymentId: String,

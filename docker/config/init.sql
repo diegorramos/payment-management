@@ -16,8 +16,8 @@ CREATE TABLE IF NOT EXISTS payments (
 CREATE TABLE IF NOT EXISTS receipts (
     id VARCHAR(255) PRIMARY KEY,
     status VARCHAR(255),
-    paymentId VARCHAR(255),
+    payment_id VARCHAR(255),
     amount NUMERIC,
     destination VARCHAR(255),
-    paymentDate DATE
+    payment_date DATE
 );
