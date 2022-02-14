@@ -67,7 +67,7 @@ curl --request POST \
 	"description": "hot dog",
 	"recurrence": {
 		"finalDate": "2023-01-10",
-		"frequency" : "SEMANAL"
+		"frequency" : "WEEKLY"
 	},
 	"destination": "222.222.222-40"
 }'
@@ -86,7 +86,7 @@ curl --request PUT \
 	"description": "hot dog",
 	"recurrence": {
 		"finalDate": "2023-01-10",
-		"frequency" : "SEMANAL"
+		"frequency" : "WEEKLY"
 	},
 	"destination": "222.222.222-40"
 }'
