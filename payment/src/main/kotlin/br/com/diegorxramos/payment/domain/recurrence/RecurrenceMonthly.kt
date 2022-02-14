@@ -10,7 +10,7 @@ class RecurrenceMonthly(private val next: RecurrenceCalculator) : RecurrenceCalc
     override fun getBasePaymentAmount() = BigDecimal("100.0")
 
     override fun calc(amount: BigDecimal, finalDate: LocalDate, frequency: String): LocalDate {
-        if (frequency == RecurrenceFrequency.MENSAL.toString()) {
+        if (frequency == RecurrenceFrequency.MONTHLY.toString()) {
             if (isValidRecurrence(amount, finalDate))
                 return LocalDate.now().plusMonths(1)
         }

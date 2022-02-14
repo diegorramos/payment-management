@@ -10,7 +10,7 @@ class RecurrenceWeekly(private val next: RecurrenceCalculator) : RecurrenceCalcu
     override fun getBasePaymentAmount() = BigDecimal("50.0")
 
     override fun calc(amount: BigDecimal, finalDate: LocalDate, frequency: String): LocalDate {
-        if (frequency == RecurrenceFrequency.SEMANAL.toString()) {
+        if (frequency == RecurrenceFrequency.WEEKLY.toString()) {
             if (isValidRecurrence(amount, finalDate))
                 return LocalDate.now().plusWeeks(1)
         }

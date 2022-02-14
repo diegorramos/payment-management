@@ -13,7 +13,7 @@ class RecurrenceTest extends Specification {
             BigDecimal amount = new BigDecimal("60.0")
             LocalDate finalDate = LocalDate.now().plusYears(1)
         when:
-            LocalDate next = new RecurrenceFrequencies().calc(amount, finalDate, "SEMANAL")
+            LocalDate next = new RecurrenceFrequencies().calc(amount, finalDate, "WEEKLY")
         then:
             next
             next == LocalDate.now().plusWeeks(1)
@@ -25,7 +25,7 @@ class RecurrenceTest extends Specification {
             BigDecimal amount = new BigDecimal("110.0")
             LocalDate finalDate = LocalDate.now().plusYears(1)
         when:
-            LocalDate next = new RecurrenceFrequencies().calc(amount, finalDate, "MENSAL")
+            LocalDate next = new RecurrenceFrequencies().calc(amount, finalDate, "MONTHLY")
         then:
             next
             next == LocalDate.now().plusMonths(1)
@@ -37,7 +37,7 @@ class RecurrenceTest extends Specification {
             BigDecimal amount = new BigDecimal("140.0")
             LocalDate finalDate = LocalDate.now().plusYears(1)
         when:
-            LocalDate next = new RecurrenceFrequencies().calc(amount, finalDate, "TRIMESTRAL")
+            LocalDate next = new RecurrenceFrequencies().calc(amount, finalDate, "QUARTERLY")
         then:
             next
             next == LocalDate.now().plusMonths(3)
@@ -49,7 +49,7 @@ class RecurrenceTest extends Specification {
             BigDecimal amount = new BigDecimal("160.0")
             LocalDate finalDate = LocalDate.now().plusYears(1)
         when:
-            LocalDate next = new RecurrenceFrequencies().calc(amount, finalDate, "SEMESTRAL")
+            LocalDate next = new RecurrenceFrequencies().calc(amount, finalDate, "SEMIANNUAL")
         then:
             next
             next == LocalDate.now().plusMonths(6)
