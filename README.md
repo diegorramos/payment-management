@@ -15,7 +15,7 @@
 
 ### Como criar um pagamento:
 
-```json
+```
 curl --request POST \
   --url http://localhost/payments \
   --header 'Content-Type: application/json' \
@@ -30,7 +30,7 @@ curl --request POST \
 
 #### Listando pagamentos
 
-```json
+```
 curl --request GET \
   --url http://localhost/payments
 ```
