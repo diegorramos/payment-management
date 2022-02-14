@@ -150,13 +150,9 @@ receipt-1   java -jar target/receipt.jar     Up      0.0.0.0:58899->8080/tcp
 http://localhost:15672
 ```
 
-![img_1.png](img_1.png)
-
 ```
 $ psql -h localhost -d payment -U admin
 ```
-
-![img_2.png](img_2.png)
 
 #### Logs:
 
